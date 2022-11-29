@@ -8,7 +8,7 @@
         <title>Laravel</title>
 
     </head>
-    <body class="antialiased bg-slate-600">
-        
+    <body {{ $attributes->merge(['class' => 'antialiased']) }}>
+        {{ $slot }}
     </body>
 </html>
