@@ -7,11 +7,6 @@ use App\Models\User;
 
 class RegistrationController extends Controller
 {
-	public function create()
-	{
-		return view('register.create');
-	}
-
 	public function store(StoreUserRequest $request)
 	{
 		$attributes = $request->validated();
