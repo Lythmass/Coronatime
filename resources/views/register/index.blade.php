@@ -21,14 +21,5 @@
             </div>
         </form>
     </div>
-    <img id = "corona-image" src="images/image.png">
+    <img id = "corona-image" src="images/image.png" class = "hidden lg:inline-block">
 </x-sessions-layout>
-
-<script>
-    image = document.querySelector('#corona-image');
-    if (window.innerWidth >= 1024) {
-        image.style.display = "inline-block";
-    } else {
-        image.style.display = "none";
-    }
-</script>
