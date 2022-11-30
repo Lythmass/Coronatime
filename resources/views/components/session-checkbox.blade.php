@@ -7,6 +7,7 @@
     >
     <label 
         for="{{$field}}"
+        class = "font-semibold text-sm"
     >
         {{$title}}
     </label>
