@@ -2,10 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUserRequest;
+use App\Models\User;
+
 class RegistrationController extends Controller
 {
-	public function index()
+	public function store(StoreUserRequest $request)
 	{
-		return view('register.index');
+		$attributes = $request->validated();
+		User::create([
+			'username' => $attributes['username'],
+			'email'    => $attributes['email'],
+			'password' => bcrypt($attributes['password']),
+		]);
+		return redirect(route('create-user'));
 	}
 }

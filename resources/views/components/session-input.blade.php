@@ -12,6 +12,17 @@
         name = '{{$field}}' 
         placeholder="{{$placeholder}}" 
         autocomplete="off"
+        value='{{old($field)}}'
         class = "py-4 outline-none rounded-lg border border-color-neutral-200 px-6 focus:border-blue-700 focus:shadow-smooth"
     >
+    @error($field)
+        <div class = "flex gap-2 items-center">
+            <img class="w-6" src="images/error.png" >
+            <p class = "text-red-700">{{$message}}</p>
+        </div>
+        <script>
+            var id = {{ Js::from($field) }}
+            document.querySelector(`#${id}`).style.borderColor = '#CC1E1E';
+        </script>
+    @enderror
 </div>
