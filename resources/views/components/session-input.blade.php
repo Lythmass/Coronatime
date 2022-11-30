@@ -6,7 +6,8 @@
     >
         {{ $title }}
     </label>
-    <input 
+    <input
+        onchange='validator(event)' 
         type="{{$type}}" 
         id = '{{$field}}' 
         name = '{{$field}}' 
@@ -15,6 +16,10 @@
         value='{{old($field)}}'
         class = "py-4 outline-none rounded-lg border border-color-neutral-200 px-6 focus:border-blue-700 focus:shadow-smooth"
     >
+    <div id = "incorrect" class = "hidden">
+        <img class="w-6" src="images/error.png" >
+        <p class = "text-red-700"></p>
+    </div>
     @error($field)
         <div class = "flex gap-2 items-center">
             <img class="w-6" src="images/error.png" >
@@ -25,4 +30,71 @@
             document.querySelector(`#${id}`).style.borderColor = '#CC1E1E';
         </script>
     @enderror
+
+    <script>
+        function validator(event) {
+
+            if (event.target.name == 'username') {
+                if (username(event.target.value)) {
+                    event.target.style.borderColor = '#249E2C';
+                    document.querySelector(`#incorrect`).setAttribute('class', 'hidden');
+                    event.target.setAttribute('class', "py-4 outline-none rounded-lg border border-color-neutral-200 px-6 focus:border-blue-700 focus:shadow-smooth bg-no-repeat bg-[center_right_1rem] bg-[url('/public/images/correct.png')] bg-[length:1.5rem_1.5rem]");
+                } else {
+                    event.target.style.borderColor = '#CC1E1E';
+                    event.target.setAttribute('class', "py-4 outline-none rounded-lg border border-color-neutral-200 px-6 focus:border-blue-700 focus:shadow-smooth");
+                    message = document.querySelector(`#incorrect`);
+                    message.setAttribute("class", "flex gap-2 items-center");
+
+                    message = document.querySelector('#incorrect > p');
+                    message.innerText = `The username must be at least 3 characters.`
+                }
+            }
+
+            if (event.target.name == 'email') {
+                if (email(event.target.value)) {
+                    event.target.style.borderColor = '#249E2C';
+                    document.querySelector(`#${event.target.id} + #incorrect`).setAttribute('class', 'hidden');
+                    event.target.setAttribute('class', "py-4 outline-none rounded-lg border border-color-neutral-200 px-6 focus:border-blue-700 focus:shadow-smooth bg-no-repeat bg-[center_right_1rem] bg-[url('/public/images/correct.png')] bg-[length:1.5rem_1.5rem]");
+                } else {
+                    event.target.style.borderColor = '#CC1E1E';
+                    event.target.setAttribute('class', "py-4 outline-none rounded-lg border border-color-neutral-200 px-6 focus:border-blue-700 focus:shadow-smooth");
+                    message = document.querySelector(`#${event.target.id} + #incorrect`);
+                    message.setAttribute("class", "flex gap-2 items-center");
+
+                    message = document.querySelector(`#${event.target.id} + #incorrect > p`);
+                    message.innerText = `The email field must be type of email.`
+                }
+            }
+
+            if (event.target.name == 'password') {
+                if (password(event.target.value)) {
+                    event.target.style.borderColor = '#249E2C';
+                    document.querySelector(`#${event.target.id} + #incorrect`).setAttribute('class', 'hidden');
+                    event.target.setAttribute('class', "py-4 outline-none rounded-lg border border-color-neutral-200 px-6 focus:border-blue-700 focus:shadow-smooth bg-no-repeat bg-[center_right_1rem] bg-[url('/public/images/correct.png')] bg-[length:1.5rem_1.5rem]");
+                } else {
+                    event.target.style.borderColor = '#CC1E1E';
+                    event.target.setAttribute('class', "py-4 outline-none rounded-lg border border-color-neutral-200 px-6 focus:border-blue-700 focus:shadow-smooth");
+                    message = document.querySelector(`#${event.target.id} + #incorrect`);
+                    message.setAttribute("class", "flex gap-2 items-center");
+
+                    message = document.querySelector(`#${event.target.id} + #incorrect > p`);
+                    message.innerText = `The password must be at least 3 characters.`
+                }
+            }
+
+            function username(text) {
+                return text.length >= 3 ? true : false;
+            }
+
+            function email(text) {
+                const regex = new RegExp(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+                return regex.test(text);
+            }
+
+            function password(text) {
+                return text.length >= 3 ? true : false;
+            }
+        }
+    </script>
+
 </div>
