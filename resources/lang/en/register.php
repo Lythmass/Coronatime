@@ -14,4 +14,7 @@ return [
 	'signup'          => 'SIGN UP',
 	'ask'             => 'Already have an account?',
 	'login'           => 'Log in',
+	'confirm'         => 'We have sent you a confirmation email',
+	'confirmed'       => 'Your account is confirmed, you can sign in',
+	'signin'          => 'SIGN IN',
 ];
