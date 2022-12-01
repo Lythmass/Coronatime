@@ -3,15 +3,7 @@
         <header class = "my-6">
             <div class = "flex items-center gap-10">
                 <img src="{{asset('images/logo.png')}}" class = "mb-10 lg:mb-14 lg:mt-10">
-                <div class = "flex gap-2 mb-10 lg:mb-14 lg:mt-10">
-                    @if (app()->getLocale() == 'en')
-                        <a class = "text-white font-semibold bg-green-500 px-1 rounded" href = "{{route('create-user', ['en'])}}">en</a>
-                        <a class = "text-green-500 font-semibold px-1" href = "{{route('create-user', ['ka'])}}">ka</a>
-                    @else
-                        <a class = "text-green-500 font-semibold px-1" href = "{{route('create-user', ['en'])}}">en</a>
-                        <a class = "text-white font-semibold bg-green-500 px-1 rounded" href = "{{route('create-user', ['ka'])}}">ka</a>
-                    @endif
-                </div>
+                <x-change-language :route="request()->route()->getName()"/>
             </div>
             <h1 class = "text-xl font-black lg:text-2xl lg:mb-4 lg:whitespace-nowrap">@lang('register.welcome')</h1>
             <p class = "text-zinc-500 lg:text-xl lg:whitespace-nowrap">@lang('register.enter-info')</p>

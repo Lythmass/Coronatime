@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 
 class RegistrationController extends Controller
 {
@@ -17,6 +18,13 @@ class RegistrationController extends Controller
 			'password' => bcrypt($attributes['password']),
 		], $remember);
 		auth()->login($attributes);
-		return redirect(route('create-user', [app()->getLocale()]));
+		event(new Registered($attributes));
+		return redirect(route('verification.notice', [app()->getLocale()]));
+	}
+
+	public function destroy()
+	{
+		auth()->logout();
+		return redirect(route('login-user', [app()->getLocale()]));
 	}
 }

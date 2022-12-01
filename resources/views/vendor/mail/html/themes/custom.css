@@ -1,0 +1,48 @@
+* {
+    box-sizing: border-box;
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+
+.button {
+    appearance: none;
+    border: 1px solid #0FBA68;
+    outline: none;
+    background-color: #0FBA68;
+    border-radius: 0.5rem;
+    padding: 1rem 5rem;
+    color: white;
+    font-weight: 900;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 2rem;
+}
+
+.button:hover {
+    background-color: #0c9754;
+}
+
+.form {
+    width: 960px;
+    height: 960px;
+}
+
+.image {
+    width: 520px;
+    height: 24rem;
+    border-radius: 1rem;
+    margin-bottom: 2rem;
+}
+
+.title {
+    color: black;
+    font-size: 25px;
+    font-weight: 900;
+    margin-bottom: 1rem;
+}
+
+.desc {
+    font-size: 18px;
+    color: black;
+}
