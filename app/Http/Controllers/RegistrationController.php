@@ -9,12 +9,14 @@ class RegistrationController extends Controller
 {
 	public function store(StoreUserRequest $request)
 	{
+		$remember = $request->has('remember');
 		$attributes = $request->validated();
-		User::create([
+		$attributes = User::create([
 			'username' => $attributes['username'],
 			'email'    => $attributes['email'],
 			'password' => bcrypt($attributes['password']),
-		]);
-		return redirect(route('create-user'));
+		], $remember);
+		auth()->login($attributes);
+		return redirect(route('create-user', [app()->getLocale()]));
 	}
 }

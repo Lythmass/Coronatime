@@ -17,12 +17,12 @@
         class = "py-4 outline-none rounded-lg border border-color-neutral-200 px-6 focus:border-blue-700 focus:shadow-smooth"
     >
     <div id = "incorrect" class = "hidden">
-        <img class="w-6" src="images/error.png" >
+        <img class="w-6" src="{{asset('images/error.png')}}" >
         <p class = "text-red-700"></p>
     </div>
     @error($field)
         <div class = "flex gap-2 items-center">
-            <img class="w-6" src="images/error.png" >
+            <img class="w-6" src="{{asset('images/error.png')}}" >
             <p class = "text-red-700">{{$message}}</p>
         </div>
         <script>
@@ -33,52 +33,56 @@
 
     <script>
         function validator(event) {
-
+            locale = {{ Js::from(app()->getLocale()) }}
             if (event.target.name == 'username') {
                 if (username(event.target.value)) {
-                    event.target.style.borderColor = '#249E2C';
-                    document.querySelector(`#incorrect`).setAttribute('class', 'hidden');
-                    event.target.setAttribute('class', "py-4 outline-none rounded-lg border border-color-neutral-200 px-6 focus:border-blue-700 focus:shadow-smooth bg-no-repeat bg-[center_right_1rem] bg-[url('/public/images/correct.png')] bg-[length:1.5rem_1.5rem]");
+                    correct();
                 } else {
-                    event.target.style.borderColor = '#CC1E1E';
-                    event.target.setAttribute('class', "py-4 outline-none rounded-lg border border-color-neutral-200 px-6 focus:border-blue-700 focus:shadow-smooth");
-                    message = document.querySelector(`#incorrect`);
-                    message.setAttribute("class", "flex gap-2 items-center");
-
-                    message = document.querySelector('#incorrect > p');
-                    message.innerText = `The username must be at least 3 characters.`
+                    incorrect('username', locale);
                 }
             }
 
             if (event.target.name == 'email') {
                 if (email(event.target.value)) {
-                    event.target.style.borderColor = '#249E2C';
-                    document.querySelector(`#${event.target.id} + #incorrect`).setAttribute('class', 'hidden');
-                    event.target.setAttribute('class', "py-4 outline-none rounded-lg border border-color-neutral-200 px-6 focus:border-blue-700 focus:shadow-smooth bg-no-repeat bg-[center_right_1rem] bg-[url('/public/images/correct.png')] bg-[length:1.5rem_1.5rem]");
+                    correct();
                 } else {
-                    event.target.style.borderColor = '#CC1E1E';
-                    event.target.setAttribute('class', "py-4 outline-none rounded-lg border border-color-neutral-200 px-6 focus:border-blue-700 focus:shadow-smooth");
-                    message = document.querySelector(`#${event.target.id} + #incorrect`);
-                    message.setAttribute("class", "flex gap-2 items-center");
-
-                    message = document.querySelector(`#${event.target.id} + #incorrect > p`);
-                    message.innerText = `The email field must be type of email.`
+                    incorrect('email', locale);
                 }
             }
 
             if (event.target.name == 'password') {
                 if (password(event.target.value)) {
-                    event.target.style.borderColor = '#249E2C';
-                    document.querySelector(`#${event.target.id} + #incorrect`).setAttribute('class', 'hidden');
-                    event.target.setAttribute('class', "py-4 outline-none rounded-lg border border-color-neutral-200 px-6 focus:border-blue-700 focus:shadow-smooth bg-no-repeat bg-[center_right_1rem] bg-[url('/public/images/correct.png')] bg-[length:1.5rem_1.5rem]");
+                    correct();
                 } else {
-                    event.target.style.borderColor = '#CC1E1E';
-                    event.target.setAttribute('class', "py-4 outline-none rounded-lg border border-color-neutral-200 px-6 focus:border-blue-700 focus:shadow-smooth");
-                    message = document.querySelector(`#${event.target.id} + #incorrect`);
-                    message.setAttribute("class", "flex gap-2 items-center");
+                    incorrect('password', locale);
+                }
+            }
 
-                    message = document.querySelector(`#${event.target.id} + #incorrect > p`);
-                    message.innerText = `The password must be at least 3 characters.`
+            function correct() {
+                event.target.style.borderColor = '#249E2C';
+                document.querySelector(`#${event.target.id} + #incorrect`).setAttribute('class', 'hidden');
+                if(document.querySelector(`#${event.target.id} + #incorrect + div`) != null) {
+                    document.querySelector(`#${event.target.id} + #incorrect + div`).setAttribute('class', 'hidden');
+                }
+                event.target.setAttribute('class', "py-4 outline-none rounded-lg border border-color-neutral-200 px-6 focus:border-blue-700 focus:shadow-smooth bg-no-repeat bg-[center_right_1rem] bg-[url('/public/images/correct.png')] bg-[length:1.5rem_1.5rem]");
+            }
+
+            function incorrect(type, locale) {
+                event.target.style.borderColor = '#CC1E1E';
+                event.target.setAttribute('class', "py-4 outline-none rounded-lg border border-color-neutral-200 px-6 focus:border-blue-700 focus:shadow-smooth");
+                message = document.querySelector(`#${event.target.id} + #incorrect`);
+                message.setAttribute("class", "flex gap-2 items-center");
+                message = document.querySelector(`#${event.target.id} + #incorrect > p`);
+                switch (type) {
+                    case 'email':
+                        message.innerText = (locale == 'en') ? 'The email must be a valid email address.' : 'ელ-ფოსტის მონაცემები უნდა შეესაბამებოდეს ელ-ფოსტის ფორმატს.';
+                        break;
+                    case 'password':
+                        message.innerText = (locale == 'en') ? `The password must be at least 3 characters.` : 'პაროლი უნდა იყოს არანაკლებ 3 სიმბოლოს ტოლი.';
+                        break;
+                    case 'username':
+                        message.innerText = (locale == 'en') ? `The username must be at least 3 characters.` : `მომხმარებლის სახელი უნდა იყოს არანაკლებ 3 სიმბოლოს ტოლი.`;
+                        break;
                 }
             }
 
