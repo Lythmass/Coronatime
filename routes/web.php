@@ -20,6 +20,7 @@ Route::prefix('{locale}')->group(function () {
 		Route::view('verify', 'register.show')->name('verification.notice');
 	});
 });
+
 Route::get('verify/{id}/{hash}', function (EmailVerificationRequest $request) {
 	$request->fulfill();
 	return redirect(route('confirmed', ['en']));
