@@ -1,1 +1,1 @@
-<p class = "self-center text-zinc-500">{{$text}} <span class = "text-black font-bold"><a href = "#">{{$action}}</a></span> </p>
+<p class = "self-center text-zinc-500">{!!$text!!} <span class = "text-black font-bold"><a href = "{{route('login-user', [app()->getLocale()])}}"> {{$action}}</a></span> </p>
