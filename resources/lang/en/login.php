@@ -11,4 +11,5 @@ return [
 	'forget'         => 'Forgot password?',
 	'ask'            => "Don't have an account?",
 	'signup'         => 'Sign up for free',
+	'login'          => 'LOG IN',
 ];
