@@ -12,6 +12,8 @@ Route::prefix('{locale}')->group(function () {
 
 		Route::view('login', 'login.create')->name('login-user');
 		Route::post('login', [LoginController::class, 'store'])->name('store-login-user');
+
+		Route::view('reset-password', 'reset.create')->name('reset-password');
 	});
 
 	Route::middleware(['verified'])->group(function () {
