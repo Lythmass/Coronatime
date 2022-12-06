@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUserRequest;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 class RegistrationController extends Controller
 {
@@ -20,6 +21,12 @@ class RegistrationController extends Controller
 		auth()->login($attributes);
 		event(new Registered($attributes));
 		return redirect(route('verification.notice', [app()->getLocale()]));
+	}
+
+	public function response(EmailVerificationRequest $request)
+	{
+		$request->fulfill();
+		return redirect(route('confirmed', ['en']));
 	}
 
 	public function destroy()

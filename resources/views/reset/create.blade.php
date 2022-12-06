@@ -4,7 +4,8 @@
             <img src="{{asset('images/logo.png')}}" class = "mb-10 lg:mb-14 lg:mt-10">
             <x-change-language :route="request()->route()->getName()"/>
         </div>
-        <form class = "w-full lg:w-96 flex flex-col gap-96 lg:gap-10" method="post">
+        <form action = "{{route('password.email', [app()->getLocale()])}}" class = "w-full lg:w-96 flex flex-col gap-96 lg:gap-10" method="post">
+            @csrf
             <div class = "flex flex-col items-center w-full gap-10 m-auto">
                 <h1 class = "text-xl font-black lg:text-2xl lg:mb-4 lg:whitespace-nowrap">@lang('reset.reset')</h1>
                 <x-session-input title="{{__('reset.email')}}" field="email" type="email" placeholder="{{__('reset.enter-email')}}"/>

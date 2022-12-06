@@ -18,7 +18,7 @@
             <div class = "flex flex-col gap-6 w-full m-auto mt-6">
                 <div class = "flex justify-between">
                     <x-session-checkbox title="{{__('login.remember')}}" field="remember"/>
-                    <a class = "text-sm text-center text-blue-700 font-semibold" href="{{route('reset-password', [app()->getLocale()])}}">@lang('login.forget')</a>
+                    <a class = "text-sm text-center text-blue-700 font-semibold" href="{{route('password.request', [app()->getLocale()])}}">@lang('login.forget')</a>
                 </div>
                 <x-session-button action="{{__('login.login')}}"/>
                 <x-session-link text="{{__('login.ask')}}" action="{{__('login.signup')}}"/>
