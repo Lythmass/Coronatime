@@ -3,7 +3,6 @@
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\RegistrationController;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('{locale}')->group(function () {
@@ -33,11 +32,5 @@ Route::prefix('{locale}')->group(function () {
 	});
 });
 
-Route::get('verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-	$request->fulfill();
-	return redirect(route('confirmed', ['en']));
-})->middleware('auth')->name('verification.verify');
-
-Route::get('reset-password/{token}/{email}', function ($token, $email) {
-	return redirect(route('reset-edit', ['en', 'token' => $token, 'email' => $email]));
-})->middleware('guest')->name('password.reset');
+Route::get('verify/{id}/{hash}', [RegistrationController::class, 'response'])->middleware('auth')->name('verification.verify');
+Route::get('reset-password/{token}/{email}', [PasswordResetController::class, 'response'])->middleware('guest')->name('password.reset');

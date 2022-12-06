@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StorePasswordResetRequest;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
@@ -27,13 +28,9 @@ class PasswordResetController extends Controller
 		}
 	}
 
-	public function update(Request $request)
+	public function update(StorePasswordResetRequest $request)
 	{
-		$request->validate([
-			'token'    => 'required',
-			'email'    => 'required|email',
-			'password' => 'required|min:3|confirmed',
-		]);
+		$request->validated();
 
 		$status = Password::reset(
 			$request->only('email', 'password', 'password_confirmation', 'token'),
@@ -56,5 +53,10 @@ class PasswordResetController extends Controller
 		{
 			return back()->withErrors(['password' => __($status), 'password_confirmation' => __($status)]);
 		}
+	}
+
+	public function response($token, $email)
+	{
+		return redirect(route('reset-edit', ['en', 'token' => $token, 'email' => $email]));
 	}
 }
