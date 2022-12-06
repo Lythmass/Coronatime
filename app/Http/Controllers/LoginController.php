@@ -22,7 +22,7 @@ class LoginController extends Controller
 		if (auth()->attempt($attributes, $remember))
 		{
 			session()->regenerate();
-			return redirect(route('dashboard', [app()->getLocale()]));
+			return redirect(route('dashboard', [app()->getLocale(), 'worldwide']));
 		}
 		else
 		{
