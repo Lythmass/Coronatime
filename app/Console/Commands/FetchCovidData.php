@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Http;
 
 class FetchCovidData extends Command
 {
-	protected $signature = 'fetch:data';
+	protected $signature = 'coronatime:fetch-data';
 
 	protected $description = 'Fetch statistics data of covid from an API.';
 
