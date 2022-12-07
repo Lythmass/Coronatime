@@ -16,4 +16,9 @@ class Country extends Model
 	];
 
 	protected $table = 'countries';
+
+	public function statistic()
+	{
+		return $this->hasOne(Statistic::class);
+	}
 }

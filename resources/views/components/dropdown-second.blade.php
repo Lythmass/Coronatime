@@ -12,7 +12,7 @@
     >
         <a
             class = "text-neutral-500"
-            href = "{{ route(request()->route()->getName(), [app()->getLocale() != 'en' ? 'en' : 'ka', 'worldwide']) }}"
+            href = "{{ route(request()->route()->getName(), [app()->getLocale() != 'en' ? 'en' : 'ka', request()->route()->parameters()['panel']]) }}"
         >
             {{app()->getLocale() != 'en' ? __('dashboard.en') : __('dashboard.ka')}}
         </a>

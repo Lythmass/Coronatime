@@ -12,6 +12,7 @@ class DashboardController extends Controller
 		$newCases = $statistics->sum('confirmed');
 		$recovered = $statistics->sum('recovered');
 		$death = $statistics->sum('death');
+
 		if ($panel == 'worldwide')
 		{
 			return view('verified.dashboard', [
@@ -20,9 +21,15 @@ class DashboardController extends Controller
 				'death'     => $death,
 			]);
 		}
+
 		if ($panel == 'bycountry')
 		{
-			return view('verified.dashboard');
+			return view('verified.dashboard', [
+				'statistics' => $statistics,
+				'newCases'   => $newCases,
+				'recovered'  => $recovered,
+				'death'      => $death,
+			]);
 		}
 	}
 }

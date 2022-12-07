@@ -18,6 +18,9 @@ module.exports = {
       },
       screens: {
         maxLg: {'max': '1024px'}
+      },
+      backgroundImage: {
+        'search-image': 'url("/public/images/search.png")'
       }
     },
   },

@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         @vite('resources/css/app.css')
+        <link rel="stylesheet" href="/index.css">
         <title>Laravel</title>
 
     </head>
