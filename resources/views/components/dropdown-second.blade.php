@@ -3,7 +3,7 @@
         id = "dropdown-2"
         class = "flex items-center cursor-pointer"
     >
-        {{app()->getLocale() == 'en' ? 'English' : 'Georgian'}}
+        {{app()->getLocale() == 'en' ? __('dashboard.en') : __('dashboard.ka')}}
         <img class = "w-6" src="/images/down-small.png">
     </label>
     <div 
@@ -14,7 +14,7 @@
             class = "text-neutral-500"
             href = "{{ route(request()->route()->getName(), [app()->getLocale() != 'en' ? 'en' : 'ka', 'worldwide']) }}"
         >
-            {{app()->getLocale() != 'en' ? 'English' : 'Georgian'}}
+            {{app()->getLocale() != 'en' ? __('dashboard.en') : __('dashboard.ka')}}
         </a>
     </div>
 </div>

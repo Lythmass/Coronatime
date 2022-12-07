@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\RegistrationController;
@@ -25,7 +26,7 @@ Route::prefix('{locale}')->group(function () {
 		Route::view('verify/confirmed', 'register.index')->name('confirmed');
 		Route::post('verify/confirmed', [RegistrationController::class, 'destroy'])->name('first-login');
 
-		Route::view('dashboard/{panel}', 'verified.dashboard')->name('dashboard');
+		Route::get('dashboard/{panel}', [DashboardController::class, 'index'])->name('dashboard');
 	});
 
 	Route::middleware(['auth'])->group(function () {
