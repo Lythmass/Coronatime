@@ -16,6 +16,7 @@ Route::prefix('{locale}')->group(function () {
 		Route::view('forgot-password', 'reset.create')->name('password.request');
 		Route::view('reset-sent', 'reset.show')->name('reset-sent');
 		Route::view('reset-password/{token}/{email}', 'reset.edit')->name('reset-edit');
+		Route::view('reset-success', 'reset.response')->name('reset-success');
 		Route::post('forgot-password', [PasswordResetController::class, 'store'])->name('password.email');
 		Route::post('update-password', [PasswordResetController::class, 'update'])->name('password.update');
 	});
@@ -24,7 +25,7 @@ Route::prefix('{locale}')->group(function () {
 		Route::view('verify/confirmed', 'register.index')->name('confirmed');
 		Route::post('verify/confirmed', [RegistrationController::class, 'destroy'])->name('first-login');
 
-		Route::view('dashboard', 'verified.dashboard')->name('dashboard');
+		Route::view('dashboard/{panel}', 'verified.dashboard')->name('dashboard');
 	});
 
 	Route::middleware(['auth'])->group(function () {
