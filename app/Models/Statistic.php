@@ -15,7 +15,13 @@ class Statistic extends Model
 		'confirmed',
 		'recovered',
 		'death',
+		'country_id',
 	];
 
 	protected $table = 'statistics';
+
+	public function getCountry()
+	{
+		return $this->belongsTo(Country::class, 'code', 'code');
+	}
 }

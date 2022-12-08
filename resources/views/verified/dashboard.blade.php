@@ -84,5 +84,45 @@
                 <p class = "text-2xl lg:text-4xl font-black text-yellow-400">{{$death}}</p>
             </div>
         </section>
+    @else
+        <section class = "w-full lg:px-28">
+            <div class = "flex flex-col items-center w-full">
+                <div class = "w-full flex justify-left items-center gap-3 px-2 lg:px-0">
+                    <input 
+                        class = "lg:h-12 lg:border lg:border-color-neutral-200 rounded lg:rounded-lg bg-search-image bg-no-repeat bg-[length:20px_20px] bg-left lg:bg-[1.5rem] px-6 lg:pl-14 w-[80%] lg:w-60 h-10 outline-none focus:border focus:border-color-neutral-100 focus:border-blue-700 focus:shadow-smooth" 
+                        type="text"
+                        name="search" 
+                        id="search" 
+                        placeholder="{{__('dashboard.search')}}"
+                    >
+                </div>
+                <div class = "lg:rounded-t-lg text-sm font-semibold flex w-full bg-neutral-100 py-5 mt-6 pl-4">
+                    <x-sort-state text="{{__('dashboard.location')}}" state="non"/>
+                    <x-sort-state text="{{__('dashboard.newcases')}}" state="non"/>
+                    <x-sort-state text="{{__('dashboard.death')}}" state="non"/>
+                    <x-sort-state text="{{__('dashboard.recovered')}}" state="non"/>
+                </div>
+                <div class = "lg:rounded-b-lg lg:border lg:border-neutral-100 flex flex-col items-center w-full lg:h-[30rem] lg:overflow-y-auto">
+                    <div class = "flex text-sm w-full justify-between pl-4 mt-4">
+                        <p class = "basis-1/4">{{ ucwords(__('dashboard.worldwide'))}}</p>
+                        <p class = "basis-1/4">{{ ucwords($newCases) }}</p>
+                        <p class = "basis-1/4">{{ ucwords($death) }}</p>
+                        <p class = "basis-1/4">{{ ucwords($recovered) }}</p>
+                    </div>
+                    <hr class = "border-neutral-100 w-full my-4 lg:px-28">
+                    @foreach ($statistics as $statistic)
+                        <div class = "flex text-sm w-full justify-between pl-4">
+                            <p class = "basis-1/4">{{ app()->getLocale() == 'en' ? ucwords($statistic->getCountry->en) : ucwords($statistic->getCountry->ka) }}</p>
+                            <p class = "basis-1/4">{{ ucwords($statistic->confirmed) }}</p>
+                            <p class = "basis-1/4">{{ ucwords($statistic->death) }}</p>
+                            <p class = "basis-1/4">{{ ucwords($statistic->recovered) }}</p>
+                        </div>
+                        <hr class = "border-neutral-100 w-full my-4 lg:px-28">
+                    @endforeach
+
+                </div>
+
+            </div>
+        </section>
     @endif
 </x-sessions-layout>

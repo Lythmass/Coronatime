@@ -15,8 +15,8 @@ class FetchCovidData extends Command
 
 	public function handle()
 	{
-		Country::truncate();
 		Statistic::truncate();
+		Country::truncate();
 
 		$countries = Http::get('https://devtest.ge/countries');
 
@@ -33,11 +33,11 @@ class FetchCovidData extends Command
 			]);
 
 			Statistic::create([
-				'country'   => $statistics['country'],
-				'code'      => $statistics['code'],
-				'confirmed' => $statistics['confirmed'],
-				'recovered' => $statistics['recovered'],
-				'death'     => $statistics['deaths'],
+				'country'    => $statistics['country'],
+				'code'       => $statistics['code'],
+				'confirmed'  => $statistics['confirmed'],
+				'recovered'  => $statistics['recovered'],
+				'death'      => $statistics['deaths'],
 			]);
 		}
 
