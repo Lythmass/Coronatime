@@ -19,6 +19,6 @@ class Country extends Model
 
 	public function statistic()
 	{
-		return $this->hasOne(Statistic::class);
+		return $this->hasOne(Statistic::class, 'code', 'code');
 	}
 }

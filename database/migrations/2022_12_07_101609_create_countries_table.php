@@ -8,7 +8,7 @@ return new class extends Migration {
 	public function up()
 	{
 		Schema::create('countries', function (Blueprint $table) {
-			$table->id();
+			$table->id()->references('id')->on('statistics')->onDelete('cascade');
 			$table->string('code');
 			$table->string('en');
 			$table->string('ka');

@@ -22,6 +22,6 @@ class Statistic extends Model
 
 	public function getCountry()
 	{
-		return $this->belongsTo(Country::class, 'country_id');
+		return $this->belongsTo(Country::class, 'code', 'code');
 	}
 }

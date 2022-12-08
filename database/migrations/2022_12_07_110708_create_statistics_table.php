@@ -9,7 +9,6 @@ return new class extends Migration {
 	{
 		Schema::create('statistics', function (Blueprint $table) {
 			$table->id();
-			$table->foreignId('country_id')->references('id')->on('countries')->onDelete('cascade');
 			$table->string('country');
 			$table->string('code');
 			$table->string('confirmed');
