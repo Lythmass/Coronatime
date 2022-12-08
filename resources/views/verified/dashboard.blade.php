@@ -114,11 +114,7 @@
                     <hr class = "border-neutral-100 w-full my-4 lg:px-28">
                     @foreach ($statistics as $statistic)
                         <div class = "flex text-sm w-full justify-between pl-4">
-                            @if (request('search') ?? false)
-                                <p class = "basis-1/4">{{ app()->getLocale() == 'en' ? ucwords($statistic->en) : ucwords($statistic->ka) }}</p>
-                            @else
-                                <p class = "basis-1/4">{{ app()->getLocale() == 'en' ? ucwords($statistic->getCountry->en) : ucwords($statistic->getCountry->ka) }}</p>
-                            @endif
+                            <p class = "basis-1/4">{{ app()->getLocale() == 'en' ? ucwords($statistic->getCountry->en) : ucwords($statistic->getCountry->ka) }}</p>
                             <p class = "basis-1/4">{{ ucwords($statistic->confirmed) }}</p>
                             <p class = "basis-1/4">{{ ucwords($statistic->death) }}</p>
                             <p class = "basis-1/4">{{ ucwords($statistic->recovered) }}</p>
