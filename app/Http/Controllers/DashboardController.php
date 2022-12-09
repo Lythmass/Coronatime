@@ -31,6 +31,16 @@ class DashboardController extends Controller
 					$query->where($locale, 'like', '%' . request()->input('search') . '%');
 				})->get();
 			}
+
+			if (request('ascend') ?? false)
+			{
+				$statistics = $statistics->sortBy(request()->input('ascend'));
+			}
+			if (request('descend') ?? false)
+			{
+				$statistics = $statistics->sortBy(request()->input('descend'))->reverse();
+			}
+
 			return view('verified.dashboard', [
 				'statistics' => $statistics,
 				'newCases'   => $newCases,
