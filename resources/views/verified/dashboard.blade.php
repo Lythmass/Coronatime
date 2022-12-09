@@ -99,10 +99,10 @@
                     >
                 </form>
                 <div class = "lg:rounded-t-lg text-sm font-semibold flex w-full bg-neutral-100 py-5 mt-6 pl-4">
-                    <x-sort-state text="{{__('dashboard.location')}}" state="non"/>
-                    <x-sort-state text="{{__('dashboard.newcases')}}" state="non"/>
-                    <x-sort-state text="{{__('dashboard.death')}}" state="non"/>
-                    <x-sort-state text="{{__('dashboard.recovered')}}" state="non"/>
+                    <x-sort-state href="{{route('dashboard', [app()->getLocale(), 'bycountry'])}}/?{!!http_build_query(['search' => request()->input('search')]) . '&'!!}{{request()->input('ascend') ? 'descend' : 'ascend'}}=location" text="{{__('dashboard.location')}}" state="{{request('ascend') == 'location' || request('descend') == 'location' ? request()->keys()[0] == 'search' ? request()->keys()[1] : request()->keys()[0] : 'non'}}"/>
+                    <x-sort-state href="{{route('dashboard', [app()->getLocale(), 'bycountry'])}}/?{!!http_build_query(['search' => request()->input('search')]) . '&'!!}{{request()->input('ascend') ? 'descend' : 'ascend'}}=confirmed" text="{{__('dashboard.newcases')}}" state="{{request('ascend') == 'confirmed' || request('descend') == 'confirmed' ? request()->keys()[0] == 'search' ? request()->keys()[1] : request()->keys()[0] : 'non'}}"/>
+                    <x-sort-state href="{{route('dashboard', [app()->getLocale(), 'bycountry'])}}/?{!!http_build_query(['search' => request()->input('search')]) . '&'!!}{{request()->input('ascend') ? 'descend' : 'ascend'}}=death" text="{{__('dashboard.death')}}" state="{{request('ascend') == 'death' || request('descend') == 'death' ? request()->keys()[0] == 'search' ? request()->keys()[1] : request()->keys()[0] : 'non'}}"/>
+                    <x-sort-state href="{{route('dashboard', [app()->getLocale(), 'bycountry'])}}/?{!!http_build_query(['search' => request()->input('search')]) . '&'!!}{{request()->input('ascend') ? 'descend' : 'ascend'}}=recovered" text="{{__('dashboard.recovered')}}" state="{{request('ascend') == 'recovered' || request('descend') == 'recovered' ? request()->keys()[0] == 'search' ? request()->keys()[1] : request()->keys()[0] : 'non'}}"/>
                 </div>
                 <div class = "lg:rounded-b-lg lg:border lg:border-neutral-100 flex flex-col items-center w-full lg:h-[30rem] lg:overflow-y-auto">
                     <div class = "flex text-sm w-full justify-between pl-4 mt-4">

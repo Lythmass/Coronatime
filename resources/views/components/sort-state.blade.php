@@ -1,4 +1,4 @@
-<div class = "flex justify-left cursor-pointer gap-1 basis-1/4 text-center">
-    <p>{{ $text }}</p>
+<div class = "flex justify-left gap-1 basis-1/4 text-center">
+    <a href = "{{$href}}">{{ $text }}</a>
     <img src="/images/{{$state}}.png" class = "w-4">
 </div>
