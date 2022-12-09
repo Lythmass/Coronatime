@@ -87,15 +87,17 @@
     @else
         <section class = "w-full lg:px-28">
             <div class = "flex flex-col items-center w-full">
-                <div class = "w-full flex justify-left items-center gap-3 px-2 lg:px-0">
+                <form id="search-form" action = "{{route('dashboard', [app()->getLocale(), 'bycountry'])}}" class = "w-full flex justify-left items-center gap-3 px-2 lg:px-0">
                     <input 
                         class = "lg:h-12 lg:border lg:border-color-neutral-200 rounded lg:rounded-lg bg-search-image bg-no-repeat bg-[length:20px_20px] bg-left lg:bg-[1.5rem] px-6 lg:pl-14 w-[80%] lg:w-60 h-10 outline-none focus:border focus:border-color-neutral-100 focus:border-blue-700 focus:shadow-smooth" 
                         type="text"
                         name="search" 
                         id="search" 
                         placeholder="{{__('dashboard.search')}}"
+                        value="{{request()->input('search')}}"
+                        onchange="document.getElementById('search-form').submit()"
                     >
-                </div>
+                </form>
                 <div class = "lg:rounded-t-lg text-sm font-semibold flex w-full bg-neutral-100 py-5 mt-6 pl-4">
                     <x-sort-state text="{{__('dashboard.location')}}" state="non"/>
                     <x-sort-state text="{{__('dashboard.newcases')}}" state="non"/>
