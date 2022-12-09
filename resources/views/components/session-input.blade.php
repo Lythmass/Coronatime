@@ -58,6 +58,14 @@
                 }
             }
 
+            if (event.target.name == 'password_confirmation') {
+                if (passwordConfirmation(event.target.value)) {
+                    correct();
+                } else {
+                    incorrect('password_confirmation', locale);
+                }
+            }
+
             function correct() {
                 event.target.style.borderColor = '#249E2C';
                 document.querySelector(`#${event.target.id} + #incorrect`).setAttribute('class', 'hidden');
@@ -83,6 +91,9 @@
                     case 'username':
                         message.innerText = (locale == 'en') ? `The username must be at least 3 characters.` : `მომხმარებლის სახელი უნდა იყოს არანაკლებ 3 სიმბოლოს ტოლი.`;
                         break;
+                    case 'password_confirmation':
+                        message.innerText = (locale == 'en') ? `The password confirmation does not match` : `პაროლის მონაცემები ერთმანეთს არ ემთხვევა.`;
+                        break;
                 }
             }
 
@@ -97,6 +108,11 @@
 
             function password(text) {
                 return text.length >= 3 ? true : false;
+            }
+
+            function passwordConfirmation(text) {
+                password = document.getElementById('password');
+                return text == password.value;
             }
         }
     </script>

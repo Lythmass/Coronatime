@@ -36,3 +36,4 @@ Route::prefix('{locale}')->group(function () {
 
 Route::get('verify/{id}/{hash}', [RegistrationController::class, 'response'])->middleware('auth')->name('verification.verify');
 Route::get('reset-password/{token}/{email}', [PasswordResetController::class, 'response'])->middleware('guest')->name('password.reset');
+Route::redirect('/', '/en/login');
