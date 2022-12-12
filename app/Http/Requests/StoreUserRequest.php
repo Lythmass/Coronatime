@@ -9,9 +9,10 @@ class StoreUserRequest extends FormRequest
 	public function rules()
 	{
 		$rules = [
-			'username' => ['required', 'min:3', 'unique:users,username'],
-			'email'    => ['required', 'email', 'unique:users,email'],
-			'password' => ['required', 'min:3', 'confirmed'],
+			'username'              => ['required', 'min:3', 'unique:users,username'],
+			'email'                 => ['required', 'email', 'unique:users,email'],
+			'password'              => ['required', 'min:3', 'confirmed'],
+			'password_confirmation' => ['required', 'min:3'],
 		];
 
 		if (!$this->has('password_confirmation'))
