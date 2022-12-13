@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -76,5 +77,51 @@ class AuthTest extends TestCase
 		$response = $this->get(route('login-user', ['ka']));
 
 		$response->assertSee('კეთილი იყოს თქვენი დაბრუნება');
+	}
+
+	public function test_auth_should_login_with_username_if_correct_credentials_were_given_without_remember_me()
+	{
+		$user = User::factory(['remember_token' => null])->create();
+		$response = $this->post(route('login-user', ['en']), [
+			'username' => $user->username,
+			'password' => $user->password,
+		]);
+		$this->actingAs($user)->get(route('dashboard', ['en', 'worldwide']));
+		$response->assertStatus(302);
+	}
+
+	public function test_auth_should_login_with_email_if_correct_credentials_were_given_without_remember_me()
+	{
+		$user = User::factory(['remember_token' => null])->create();
+		$response = $this->post(route('login-user', ['en']), [
+			'username' => $user->email,
+			'password' => $user->password,
+		]);
+		$this->actingAs($user)->get(route('dashboard', ['en', 'worldwide']));
+		$response->assertStatus(302);
+	}
+
+	public function test_auth_should_login_with_username_if_correct_credentials_were_given_with_remember_me()
+	{
+		$user = User::factory()->create();
+		$response = $this->post(route('login-user', ['en']), [
+			'username' => $user->username,
+			'password' => $user->password,
+			'remember' => true,
+		]);
+		$this->actingAs($user)->get(route('dashboard', ['en', 'worldwide']));
+		$response->assertStatus(302);
+	}
+
+	public function test_auth_should_login_with_email_if_correct_credentials_were_given_with_remember_me()
+	{
+		$user = User::factory()->create();
+		$response = $this->post(route('login-user', ['en']), [
+			'username' => $user->username,
+			'password' => $user->email,
+			'remember' => true,
+		]);
+		$this->actingAs($user)->get(route('dashboard', ['en', 'worldwide']));
+		$response->assertStatus(302);
 	}
 }
