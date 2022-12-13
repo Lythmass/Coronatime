@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
@@ -136,5 +137,31 @@ class RegisterTest extends TestCase
 		]);
 
 		Event::assertDispatched(Registered::class);
+	}
+
+	public function test_register_should_click_on_verification_button_to_confirm_email_and_redirect()
+	{
+		$notification = new VerifyEmail();
+		$user = User::factory(['id' => 1, 'email_verified_at' => null])->make();
+
+		$this->post(route('create-user', ['en']), [
+			'username'              => $user->username,
+			'email'                 => $user->email,
+			'password'              => $user->password,
+			'password_confirmation' => $user->password,
+		]);
+
+		$uri = $notification->verificationUrl($user);
+
+		$this->actingAs($user)->followingRedirects(route('confirmed', ['en']))->get($uri);
+		$this->assertNotNull(User::where('username', $user->username)->get('email_verified_at'));
+		$this->actingAs($user)->followingRedirects(route('login-user', ['en']))->get(route('first-login', 'en'));
+	}
+
+	public function test_register_page_should_show_georgian_page()
+	{
+		$response = $this->get(route('create-user', ['ka']));
+
+		$response->assertSee('კეთილი იყოს თქვენი მობრძანება კორონათაიმზე');
 	}
 }
