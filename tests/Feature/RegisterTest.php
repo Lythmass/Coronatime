@@ -4,10 +4,10 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\URL;
 use Tests\TestCase;
 
 class RegisterTest extends TestCase
@@ -141,7 +141,6 @@ class RegisterTest extends TestCase
 
 	public function test_register_should_click_on_verification_button_to_confirm_email_and_redirect()
 	{
-		$notification = new VerifyEmail();
 		$user = User::factory(['id' => 1, 'email_verified_at' => null])->make();
 
 		$this->post(route('create-user', ['en']), [
@@ -151,7 +150,11 @@ class RegisterTest extends TestCase
 			'password_confirmation' => $user->password,
 		]);
 
-		$uri = $notification->verificationUrl($user);
+		$uri = URL::temporarySignedRoute(
+			'verification.verify',
+			now()->addMinutes(60),
+			['id' => $user->id, 'hash' => sha1($user->email)]
+		);
 
 		$this->actingAs($user)->followingRedirects(route('confirmed', ['en']))->get($uri);
 		$this->assertNotNull(User::where('username', $user->username)->get('email_verified_at'));
