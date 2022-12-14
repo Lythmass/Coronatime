@@ -21,6 +21,10 @@ module.exports = {
       },
       backgroundImage: {
         'search-image': 'url("/public/images/search.png")'
+      },
+      fontFamily: {
+        'inter': 'Inter',
+        'firago': 'FiraGO'
       }
     },
   },

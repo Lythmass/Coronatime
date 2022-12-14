@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\URL;
 use Tests\TestCase;
 
@@ -59,12 +60,11 @@ class PasswordResetTest extends TestCase
 	public function test_user_gets_redirected_to_password_reset_page_after_clicking_link_in_email()
 	{
 		$user = User::factory()->create();
+		$token = Password::createToken($user);
 
 		$this->post(route('password.request', ['en']), [
 			'email' => $user->email,
 		]);
-
-		$token = sha1($user->email);
 
 		$uri = URL::temporarySignedRoute(
 			'password.reset',
@@ -79,12 +79,11 @@ class PasswordResetTest extends TestCase
 	public function test_user_receives_errors_on_empty_values()
 	{
 		$user = User::factory()->create();
+		$token = Password::createToken($user);
 
 		$this->post(route('password.request', ['en']), [
 			'email' => $user->email,
 		]);
-
-		$token = sha1($user->email);
 
 		$uri = URL::temporarySignedRoute(
 			'password.reset',
@@ -105,12 +104,11 @@ class PasswordResetTest extends TestCase
 	public function test_user_receives_errors_if_values_are_less_than_3()
 	{
 		$user = User::factory()->create();
+		$token = Password::createToken($user);
 
 		$this->post(route('password.request', ['en']), [
 			'email' => $user->email,
 		]);
-
-		$token = sha1($user->email);
 
 		$uri = URL::temporarySignedRoute(
 			'password.reset',
@@ -128,15 +126,39 @@ class PasswordResetTest extends TestCase
 		$response->assertSessionHasErrors(['password', 'password_confirmation']);
 	}
 
-	public function test_user_receives_errors_if_values_do_not_match()
+	public function test_user_receives_errors_if_token_is_invalid()
 	{
 		$user = User::factory()->create();
+		$token = 'hahahahahaah';
 
 		$this->post(route('password.request', ['en']), [
 			'email' => $user->email,
 		]);
 
-		$token = sha1($user->email);
+		$uri = URL::temporarySignedRoute(
+			'password.reset',
+			now()->addMinutes(60),
+			['token' => $token, 'email' => $user->email]
+		);
+
+		$this->followingRedirects(route('reset-edit', ['en', $token, $user->email]))->get($uri);
+		$response = $this->post(route('password.update', ['en']), [
+			'token'                 => $token,
+			'email'                 => $user->email,
+			'password'              => 'eergwgwerg',
+			'password_confirmation' => 'eergwgwerg',
+		]);
+		$response->assertSessionHasErrors(['password', 'password_confirmation']);
+	}
+
+	public function test_user_receives_errors_if_values_do_not_match()
+	{
+		$user = User::factory()->create();
+		$token = Password::createToken($user);
+
+		$this->post(route('password.request', ['en']), [
+			'email' => $user->email,
+		]);
 
 		$uri = URL::temporarySignedRoute(
 			'password.reset',
@@ -156,20 +178,18 @@ class PasswordResetTest extends TestCase
 
 	public function test_user_updates_password_if_input_data_is_correct()
 	{
-		$user = User::factory()->create();
+		$user = User::factory(['password' => bcrypt('haha')])->create();
+		$token = Password::createToken($user);
 
 		$this->post(route('password.request', ['en']), [
-			'email' => $user->email,
+			'email'   => $user->email,
 		]);
-
-		$token = sha1($user->email);
 
 		$uri = URL::temporarySignedRoute(
 			'password.reset',
 			now()->addMinutes(60),
 			['token' => $token, 'email' => $user->email]
 		);
-
 		$this->followingRedirects(route('reset-edit', ['en', $token, $user->email]))->get($uri);
 		$this->post(route('password.update', ['en']), [
 			'token'                 => $token,
@@ -179,6 +199,6 @@ class PasswordResetTest extends TestCase
 		]);
 
 		$this->followingRedirects('reset-success', ['en']);
-		$this->assertTrue(Hash::check('password', $user->fresh()->password));
+		$this->assertTrue(Hash::check('gamarjoba', $user->fresh()->password));
 	}
 }
