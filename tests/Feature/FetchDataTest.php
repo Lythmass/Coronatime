@@ -38,7 +38,7 @@ class FetchDataTest extends TestCase
 	public function test_check_the_connection_between_countries_and_statistics_tables()
 	{
 		$this->assertInstanceOf(Country::class, Statistic::first()->getCountry);
-
+		$this->assertEquals(Country::first()->statistic, Statistic::class::first());
 		Statistic::truncate();
 		Country::truncate();
 	}

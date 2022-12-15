@@ -141,7 +141,7 @@ class RegisterTest extends TestCase
 
 	public function test_register_should_click_on_verification_button_to_confirm_email_and_redirect()
 	{
-		$user = User::factory(['id' => 1, 'email_verified_at' => null])->make();
+		$user = User::factory(['email_verified_at' => null])->make();
 
 		$this->post(route('create-user', ['en']), [
 			'username'              => $user->username,
@@ -150,14 +150,16 @@ class RegisterTest extends TestCase
 			'password_confirmation' => $user->password,
 		]);
 
+		$user = User::where('username', $user->username)->get()[0];
+
 		$uri = URL::temporarySignedRoute(
 			'verification.verify',
 			now()->addMinutes(60),
 			['id' => $user->id, 'hash' => sha1($user->email)]
 		);
 
-		$this->actingAs($user)->followingRedirects(route('confirmed', ['en']))->get($uri);
-		$this->assertNotNull(User::where('username', $user->username)->get('email_verified_at'));
+		$this->actingAs($user)->get($uri);
+		$this->assertNotNull($user->fresh()->email_verified_at);
 		$this->actingAs($user)->followingRedirects(route('login-user', ['en']))->get(route('first-login', 'en'));
 	}
 
