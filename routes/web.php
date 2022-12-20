@@ -22,10 +22,9 @@ Route::prefix('{locale}')->group(function () {
 		Route::post('update-password', [PasswordResetController::class, 'update'])->name('password.update');
 	});
 
-	Route::middleware(['verified'])->group(function () {
+	Route::middleware(['auth', 'verified'])->group(function () {
 		Route::view('verify/confirmed', 'register.index')->name('confirmed');
 		Route::post('verify/confirmed', [RegistrationController::class, 'destroy'])->name('first-login');
-
 		Route::get('dashboard/{panel}', [DashboardController::class, 'index'])->name('dashboard');
 	});
 
