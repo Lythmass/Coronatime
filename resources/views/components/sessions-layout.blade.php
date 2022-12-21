@@ -10,9 +10,13 @@
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"> 
         {{-- firago --}}
         <link href="https://free.bboxtype.com/embedfonts/?family=FiraGO:400,500,600,700,800,900" rel="stylesheet">
-        <link rel="stylesheet" href="/index.css">
         
-        <title>Laravel</title>
+        <link rel="icon" href="{{ asset('images/corona.png') }}">
+        <link rel="stylesheet" href="/index.css">
+        @php
+            $panel = request()->route()->getName() == 'dashboard' ? '-'.request('panel') : ''
+        @endphp
+        <title>{{ request()->route()->getName() . $panel}}</title>
 
     </head>
     @php
