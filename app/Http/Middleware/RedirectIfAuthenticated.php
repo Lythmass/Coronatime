@@ -23,7 +23,11 @@ class RedirectIfAuthenticated
 
 		foreach ($guards as $guard)
 		{
-			if (Auth::guard($guard)->check())
+			if (Auth::guard($guard)->check() && Auth::user()->email_verified_at == null)
+			{
+				return redirect(route('verification.notice', [app()->getLocale()]));
+			}
+			if (Auth::guard($guard)->check() && Auth::user()->email_verified_at != null)
 			{
 				return redirect(route('dashboard', [app()->getLocale(), 'worldwide']));
 			}
